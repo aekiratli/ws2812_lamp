@@ -1,5 +1,5 @@
 ## Description
-A rgb lamp that is controlled by web server and touch sensor.
+An RGB lamp that is controlled by web server and touch sensor.
 
 ## Hardware
 WS2812B 24 LED, ESP32, TTP223 Touch Sensor
