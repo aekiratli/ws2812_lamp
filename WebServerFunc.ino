@@ -1,6 +1,21 @@
 void handle_OnConnect() {
   touchCounter = 1;
-  Serial.println("Loading the lamp");
+  server.send(200, "text/html", SendHTML());
+}
+
+void handle_Fire2012()
+{
+  touchCounter = 11;
+  server.send(200, "text/html", SendHTML());
+}
+void handle_Pride2015()
+{
+  touchCounter = 13;
+  server.send(200, "text/html", SendHTML());
+}
+void handle_Pacifica()
+{
+  touchCounter = 12;
   server.send(200, "text/html", SendHTML());
 }
 
@@ -9,6 +24,22 @@ void handle_bright() {
   Serial.print("slider val: ");
   Serial.println(bright);
   brightness = bright.toInt();
+  server.send(200, "text/plane", "0");
+}
+
+void handle_fps() { // YAPIYORSUN
+  String framepersecond = server.arg("fps"); // reading from slider on html pagae
+  Serial.print("slider fps: ");
+  Serial.println(framepersecond);
+  fps = framepersecond.toInt();
+  server.send(200, "text/plane", "0");
+}
+
+void handle_interval() {
+  String interval = server.arg("interval"); // reading from slider on html pagae
+  Serial.print("interval val: ");
+  Serial.println(interval);
+  timeInterval = interval.toInt();
   server.send(200, "text/plane", "0");
 }
 
@@ -64,16 +95,18 @@ void handle_NotFound() {
 }
 void  handle_setRGB()
 {
-  touchCounter = 1;
+
   Serial.println(server.arg("r"));
   Serial.println(server.arg("g"));
   Serial.println(server.arg("b"));
   for (int i = 0; i < numberOfLeds; i++) {
-    leds[i].r = server.arg("g").toInt();
-    leds[i].g = server.arg("r").toInt();
+    leds[i].r = server.arg("r").toInt();
+    leds[i].g = server.arg("g").toInt();
     leds[i].b = server.arg("b").toInt();
-  }
-  server.send(200, "text/html", SendHTML());
+    delay(10);
+  } delay(100);
+  server.send(200, "text/plane", "0");
+  touchCounter = 1;
 }
 void initServer()
 {
@@ -84,12 +117,16 @@ void initServer()
   server.on("/turnOffLamp", handle_turnOffLamp);
   server.on("/setrgb", handle_setRGB);
   server.on("/setbrightness" , handle_bright);
+  server.on("/setinterval" , handle_interval);
+  server.on("/setfps" , handle_fps);
   server.on("/rainbow", handle_rainbow);
   server.on("/confetti", handle_confetti);
   server.on("/sinelon", handle_sinelon);
   server.on("/bpm", handle_bpm);
   server.on("/juggle", handle_juggle);
-
+  server.on("/fire", handle_Fire2012);
+  server.on("/pacifica", handle_Pacifica);
+  server.on("/pride", handle_Pride2015);
   server.onNotFound(handle_NotFound);
   server.begin();
 }
