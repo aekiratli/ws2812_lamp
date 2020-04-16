@@ -1,6 +1,6 @@
 ## Description
-An RGB lamp that is controlled by web server and touch sensor.
-
+An RGB lamp that is controlled by web server and touch sensor. It is powered by 5V USB
+![](lamp.gif)
 ## Hardware
 WS2812B 24 LED, ESP32, TTP223 Touch Sensor
 
